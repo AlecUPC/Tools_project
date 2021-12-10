@@ -48,3 +48,7 @@ summarize(dataset_barcelona,average=mean(job_satisfaction))
 summarize(dataset_london,average=mean(job_satisfaction))
 #Whether employees are in Barcelona or London, job satisfaction is about 2.73 on average
 
+#Job involvment
+summarize(dataset_barcelona,average=mean(job_involvement))
+summarize(dataset_london,average=mean(job_involvement))
+#In this case job involvement in Barcelona is quit higher than London (3,38 in bcn and 2,74 in London)
