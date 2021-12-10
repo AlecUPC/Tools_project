@@ -54,3 +54,4 @@ dataset_barcelona<-filter(dataset,city=="Barcelona")
 #Compare number of years inside the company and stocks, and motivation
 #Training times last/years in current role
 #Years_since last promotions/Year with current role and Years in company
+#The daily rate is the amount of money produced by a person in 1 day 
