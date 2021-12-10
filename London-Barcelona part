@@ -14,11 +14,28 @@ ggplot(dataset_london,aes(x=business_travel))+
   geom_bar()+
   geom_text(stat='count', aes(label=..count..), vjust=2, color="white")+
   theme_light()
-  
-#Matrix to interpret our results
+
+#Bcn 24/271 travel non_travel, 50/271 frequently, 197/271 rarely
+#London 129/1201 non_travel, 224/1201 frequently, 848/1201 rarely
+
 travel_frequency<-matrix(c("Non-Travel","Frenquently","Rarely",
                         (24*100/271),(50*100/271),(197*100/271),
                         (129*100/1201),(224*100/1201),(848*100/1201)),ncol =3,byrow=TRUE)
 travel_frequency
 
 #Line 2 Bcn and Line 3 London, as we can see the percentage are quit the same (~2%)
+
+#Job in Barcelona and London
+
+ggplot(dataset_barcelona,aes(x=department))+
+  geom_bar()+
+  geom_text(stat='count', aes(label=..count..), vjust=0.5, color="black")+
+  theme(axis.text.x = element_text(angle = 45, vjust =1, hjust=1))
+  theme_light()
+  
+ggplot(dataset_london,aes(x=department))+
+    geom_bar()+
+    geom_text(stat='count', aes(label=..count..), vjust=0.5, color="black")+
+    theme(axis.text.x = element_text(angle = 45, vjust =1, hjust=1))
+  theme_light()
+  
