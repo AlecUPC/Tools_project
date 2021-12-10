@@ -1,0 +1,118 @@
+---
+title: "London-Barcelona analysis"
+author: "Alec DUDOGNON"
+date: "10/12/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(janitor)
+library(gridExtra)
+library(dplyr)
+```
+
+# Introduction
+
+## Settings software
+
+**In our analysis we used this version of Rstudio :**
+RStudio 2021.09.0+351 "Ghost Orchid" Release (077589bcad3467ae79f318afe8641a1899a51606, 2021-09-20) for Windows
+Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) QtWebEngine/5.12.8 Chrome/69.0.3497.128 Safari/537.36
+
+And then we used these 4 packages on Rstudio:
+
+```{r packages, eval=FALSE}
+library(tidyverse)
+library(janitor)
+library(gridExtra)
+library(dplyr)
+```
+
+## Data description
+
+In this case we have 1 dataset called **dataset.csv**.
+This dataset has this number of observations and variables
+:
+```{r dimension, echo=FALSE,eval=TRUE}
+dataset<-read.csv("dataset.csv",sep=";")
+dim(dataset)
+```
+
+We have 1506 observations and 36 variables.
+These variables are characters (marital status, Job role...) and numerics (job satisfaction, performance rating...).
+
+## Data cleaning
+
+In order to analyze this dataset we need to clean it. In fact we can have some empty cells, collumn or rows. But we can also have mistake in some values for example different way to write a word (female/Female). These mistakes could be annoying in our analysis.
+
+First of all, I used these functions:
+
+```{r data_cleaning, echo=TRUE,eval=TRUE}
+dataset<-drop_na(dataset)
+dataset<-clean_names(dataset)
+dataset<-rename(dataset, age=i_age)
+```
+
+The **drop_na** functions allows us to delete every lines with "NA" inside the cells. After that the **clean_names** function corrects column titles to a standard format (no capital letters etc...). And then we used **rename** function to rename the *i_age* column to *age* column.
+
+Then we noticed during our first analysis that some values
+are inconsistent (.i.e: age in a company > 80 years old
+etc...). So we decided to clean also these columns. But
+also in order to make the dataset more readable we have
+removed columns that we believe are useless, contain the
+same data for everyone or contain personal information:
+
+```{r first cleaning, echo=TRUE,eval=TRUE}
+#Clean age
+dataset<-subset(dataset,age<80)
+dataset<-subset(dataset,age>17)
+
+#Clean and delete over18 (useless column)
+dataset$over18<-NULL
+
+#Clean employees_count + employees_number (useless and sensible data)
+dataset$employee_count<-NULL
+dataset$employee_number<-NULL
+
+#Clean marital status (private and useless for our analysis)
+dataset$marital_status<-NULL
+
+#Clean standard hours (same standard for every people)
+dataset$standard_hours<-NULL
+
+#Clean job
+dataset<-subset(dataset, department!="")
+```
+
+Once we have cleaned up most of the columns, we also check
+that all the data in a column is in the same format (.i.e.
+in the gender column, or in the city column). This could
+prove cumbersome if we left these columns with different
+formats (analysis problems etc.):
+
+```{r second cleaning,echo=TRUE,eval=TRUE}
+#Clean the city and gender names
+dataset$city<-ifelse(dataset$city=="Barcelone","Barcelona",dataset$city)
+dataset$city<-ifelse(dataset$city=="Londres","London",dataset$city)
+dataset$gender<-ifelse(dataset$gender=="female","Female",dataset$gender)
+dataset$gender<-ifelse(dataset$gender=="female ","Female",dataset$gender)
+dataset$gender<-ifelse(dataset$gender=="male","Male",dataset$gender)
+```
+
+# First Analysis (London/Barcelona)
+
+Our first analysis is carried out with the aim of
+identifying the significant differences between the two
+workplaces: Barcelona and London. In order to perform
+this analysis in the best possible way, we have divided
+the main dataset into two parts: one concerning the
+employees in Barcelona and one concerning the employees
+in London :
+
+```{r divide data,echo=TRUE,eval=TRUE}
+##Divide our dataset into 2 others
+dataset_london<-filter(dataset,city=="London")
+dataset_barcelona<-filter(dataset,city=="Barcelona")
+```
