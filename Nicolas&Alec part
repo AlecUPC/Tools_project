@@ -1,0 +1,55 @@
+library(tidyverse)
+library(janitor)
+dataset<-read.csv("dataset.csv",sep=";")
+
+## Cleaning
+dataset<-drop_na(dataset)
+dataset<-clean_names(dataset)
+dataset<-rename(dataset, age=i_age)
+
+## Clean every columns
+
+#Clean age
+dataset<-subset(dataset,age<80)
+dataset<-subset(dataset,age>17)
+unique(dataset$age)
+
+#Clean and delete over18 (useless column)
+unique(dataset$over18)
+dataset$over18<-NULL
+
+#Clean employees_count + employees_number (useless and sensible data)
+unique(dataset$employee_count)
+dataset$employee_count<-NULL
+dataset$employee_number<-NULL
+
+#Clean marital status (private and useless for our analysis)
+dataset$marital_status<-NULL
+
+#Clean standart hours (same standard for every people)
+dataset$standard_hours<-NULL
+
+#Clean the city names
+unique(dataset$city)
+dataset$city<-ifelse(dataset$city=="Barcelone","Barcelona",dataset$city)
+dataset$city<-ifelse(dataset$city=="Londres","London",dataset$city)
+dataset$gender<-ifelse(dataset$gender=="female","Female",dataset$gender)
+dataset$gender<-ifelse(dataset$gender=="female ","Female",dataset$gender)
+dataset$gender<-ifelse(dataset$gender=="male","Male",dataset$gender)
+
+unique(dataset$gender)
+
+
+##Gender equality overview
+dataset_london<-filter(dataset,city=="London")
+dataset_barcelona<-filter(dataset,city=="Barcelona")
+
+##Start with comparaison London/Barcelona
+#Idea : Salary, Gender, Age, Mean distance from home (maybe),
+#environment satisfaction, hourly_rate, job_involvment, job_role and level,
+# job satisfaction, monthly income 
+
+#Is the stock works like motivation (relation between stocks and job_involment)
+#Compare number of years inside the company and stocks, and motivation
+#Training times last/years in current role
+#Years_since last promotions/Year with current role and Years in company
