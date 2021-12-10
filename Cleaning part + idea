@@ -39,8 +39,9 @@ dataset$gender<-ifelse(dataset$gender=="male","Male",dataset$gender)
 
 unique(dataset$gender)
 
+#Clean job
+dataset<-subset(dataset, department!="")
 
-##Gender equality overview
 dataset_london<-filter(dataset,city=="London")
 dataset_barcelona<-filter(dataset,city=="Barcelona")
 
