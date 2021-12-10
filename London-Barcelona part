@@ -1,26 +1,18 @@
 ##London/Bcn
 #Mean age 
-summarize(dataset_barcelona,average=mean(age))
-summarize(dataset_london,average=mean(age))
+mean_age<-matrix(c("Barcelona",summarize(dataset_barcelona,average=mean(age)),
+                   "London",summarize(dataset_london,average=mean(age))),ncol=2)
+
 #36,3 for Bcn and 37,1 for london, quit the same mean age
 
 #Traveling frequency
-ggplot(dataset_barcelona,aes(x=business_travel))+
-  geom_bar()+
-  geom_text(stat='count', aes(label=..count..), vjust=2, color="white")+
-  theme_light()
 
-ggplot(dataset_london,aes(x=business_travel))+
-  geom_bar()+
-  geom_text(stat='count', aes(label=..count..), vjust=2, color="white")+
-  theme_light()
+table(dataset_barcelona$business_travel)
+table(dataset_london$business_travel)
 
-#Bcn 24/271 travel non_travel, 50/271 frequently, 197/271 rarely
-#London 129/1201 non_travel, 224/1201 frequently, 848/1201 rarely
-
-travel_frequency<-matrix(c("Non-Travel","Frenquently","Rarely",
-                        (24*100/271),(50*100/271),(197*100/271),
-                        (129*100/1201),(224*100/1201),(848*100/1201)),ncol =3,byrow=TRUE)
+travel_frequency<-matrix(c("","Non-Travel","Frenquently","Rarely",
+                           "Barcelona",(24*100/271),(50*100/271),(197*100/271),
+                           "London",(129*100/1201),(224*100/1201),(848*100/1201)),ncol =4,byrow=TRUE)
 travel_frequency
 
 #Line 2 Bcn and Line 3 London, as we can see the percentage are quit the same (~2%)
@@ -31,24 +23,34 @@ department_barcelona<-ggplot(dataset_barcelona,aes(x=department))+
   geom_bar()+
   geom_text(stat='count', aes(label=..count..), vjust=0.5, color="black")+
   theme(axis.text.x = element_text(angle = 45, vjust =1, hjust=1))
-  theme_light()
-  
+theme_light()
+
 department_london<-ggplot(dataset_london,aes(x=department))+
-    geom_bar()+
-    geom_text(stat='count', aes(label=..count..), vjust=0.5, color="black")+
-    theme(axis.text.x = element_text(angle = 45, vjust =1, hjust=1))
-  theme_light()
-  
+  geom_bar()+
+  geom_text(stat='count', aes(label=..count..), vjust=0.5, color="black")+
+  theme(axis.text.x = element_text(angle = 45, vjust =1, hjust=1))
+theme_light()
+
 grid.arrange(department_barcelona,department_london,ncol=2)
 
 #As we can see, these two graphs look really similar, most of people work in Research and Development in the 2 companies, after that Sales...
 
 #Environment satisfaction
-summarize(dataset_barcelona,average=mean(job_satisfaction))
-summarize(dataset_london,average=mean(job_satisfaction))
+environment_satisfaction<-matrix(c("Barcelona",summarize(dataset_barcelona,average=mean(job_satisfaction)),
+                                   "London",summarize(dataset_london,average=mean(job_satisfaction))),
+                                 ncol=2)
 #Whether employees are in Barcelona or London, job satisfaction is about 2.73 on average
 
 #Job involvment
-summarize(dataset_barcelona,average=mean(job_involvement))
-summarize(dataset_london,average=mean(job_involvement))
+job_involvement<-matrix(c("Barcelona",summarize(dataset_barcelona,average=mean(job_involvement)),
+                          "London",summarize(dataset_london,average=mean(job_involvement))),
+                        ncol=2)
 #In this case job involvement in Barcelona is quit higher than London (3,38 in bcn and 2,74 in London)
+#Salary analysis
+Salary <- rbind(matrix(c("","Mini_salary","Mean_salary","Max_salary",
+                         "Barcelona",min(dataset_barcelona$monthly_income),mean(dataset_barcelona$monthly_income),max(dataset_barcelona$monthly_income)),ncol=4, nrow=2,byrow=TRUE),
+                matrix(c("London",min(dataset_london$monthly_income),mean(dataset_london$monthly_income),max(dataset_london$monthly_income)),ncol=4))
+
+#Mini, mean and max are pretty similar between Barcelona and London
+#It's important to know that in Bcn mean salary is 1,453.12 and 2,839 in London
+#So people who live in Barcelone theoretically have more financial resources in their in their countries than in London
