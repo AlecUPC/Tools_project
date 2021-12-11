@@ -116,3 +116,24 @@ in London :
 dataset_london<-filter(dataset,city=="London")
 dataset_barcelona<-filter(dataset,city=="Barcelona")
 ```
+
+## Education level and field
+
+Thanks to this picture we are able to traduce the
+education number into education levels :
+![](correspondance.png)
+
+With this table we can then interpret this column:
+```{r education analysis}
+education_combined<-select(dataset,education,education_field)%>%
+  arrange(education)
+ggplot(education_combined, aes(fill=education, y=education, x=education_field)) + 
+  geom_bar(position="stack", stat="identity")+
+  labs(x="Field of education", y="Level of education")+
+  theme(axis.text.x = element_text(angle = 45, vjust =1, hjust=1))
+```
+
+As we can see most of employees did an Life Sciences and
+a medical education than Marketing.
+Most of them have a 3 or 4 level education, a small
+population has a low and high education.
