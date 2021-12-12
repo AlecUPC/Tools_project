@@ -280,3 +280,27 @@ grid.arrange(ggplot(dataset_barcelona, aes(x=relationship_satisfaction))+
 As we can see on the 3 variables analyzed, they are
 identical except for the "job involvement" variable which
 is higher in Barcelona than in London.
+
+## Salary Analysis
+
+Through an internet search we found the average salaries
+in the 2 cities in question:
+
+- Mean salary in London = 2,839€
+- Mean salary in Barcelona = 1,453.12€
+
+Then with these values we can start the analysis:
+
+```{r mean salary}
+Salary <- rbind(matrix(c("","Mini_salary","Mean_salary","Max_salary",
+                         "Barcelona",min(dataset_barcelona$monthly_income),mean(dataset_barcelona$monthly_income),max(dataset_barcelona$monthly_income)),ncol=4, nrow=2,byrow=TRUE),
+                matrix(c("London",min(dataset_london$monthly_income),mean(dataset_london$monthly_income),max(dataset_london$monthly_income)),ncol=4))
+Salary
+``` 
+
+Mini, mean and max are pretty similar between Barcelona
+and London. It's important to remember that in Barcelona
+mean salary is lower than in London
+So people who live in Barcelona theoretically have more
+financial resources in their in their countries than in
+London.
