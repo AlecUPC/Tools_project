@@ -11,6 +11,7 @@ library(tidyverse)
 library(janitor)
 library(gridExtra)
 library(dplyr)
+library(cowplot)
 ```
 
 # Introduction
@@ -99,6 +100,7 @@ dataset$city<-ifelse(dataset$city=="Londres","London",dataset$city)
 dataset$gender<-ifelse(dataset$gender=="female","Female",dataset$gender)
 dataset$gender<-ifelse(dataset$gender=="female ","Female",dataset$gender)
 dataset$gender<-ifelse(dataset$gender=="male","Male",dataset$gender)
+dataset$department<-ifelse(dataset$department=="Research and Development","Research & Development",dataset$department)
 ```
 
 # First Analysis (London/Barcelona)
@@ -163,7 +165,7 @@ between the two cities.
 
 We will therefore compare the travel frequencies of the 2 different companies in London and Barcelona.
 
-```{r traveling frequency table, echo=FALSE, eval=FALSE}
+```{r traveling frequency table, echo=FALSE}
 table(dataset_barcelona$business_travel)
 table(dataset_london$business_travel)
 travel_frequency<-matrix(c("","Non-Travel","Frenquently","Rarely",
@@ -179,3 +181,45 @@ Thanks to the table above, we notice that in general the
 percentages of the population according to their
 frequency of travel are more or less identical depending
 on the city. 
+
+## Distribution of employees in the departments
+
+In this section we will compare the distribution of
+employees within the two companies. We will then draw
+conclusions on one of the problems of the new CEO
+concerning the succession of employees in the different
+sectors.
+
+```{r department}
+
+department_barcelona<-ggplot(dataset_barcelona,aes(x=department))+
+  geom_bar()+
+    theme(axis.text.x = element_text(angle = 60, hjust = 1))+
+  geom_text(stat='count', aes(label=..count..), vjust=0.5, color="black")+
+  labs(x="Department in Barcelona")+
+theme_light()
+
+department_london<-ggplot(dataset_london,aes(x=department))+
+  geom_bar()+
+      theme(axis.text.x = element_text(angle = 60, hjust = 1))+
+  geom_text(stat='count', aes(label=..count..), vjust=0.5, color="black")+
+    labs(x="Department in London")+
+theme_light()
+plot_grid(department_barcelona, department_london, ncol = 2, nrow = 1)
+```
+
+Analyzing the two graphs, we can see that in Barcelona
+there will be a possible succession problem in the HR sector. We are going to make a more detailed
+analysis to know the age of the employee in this
+area.
+
+```{r HR analysis}
+HR<-filter(dataset_barcelona, department=="HR")
+HR[1]
+```
+
+The only HR employee in Barcelona is 45 years old, not
+yet close to retirement but not very young either. It
+would be interesting to recruit an additional person in
+this area so that he can pass on his knowledge and
+subsequently take over the HR area in Barcelona.
