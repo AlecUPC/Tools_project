@@ -66,9 +66,11 @@ removed columns that we believe are useless, contain the
 same data for everyone or contain personal information:
 
 ```{r first cleaning, echo=TRUE,eval=TRUE}
-#Clean age
+#Clean age and job involvement mista
 dataset<-subset(dataset,age<80)
 dataset<-subset(dataset,age>17)
+dataset<-subset(dataset,job_involvement<100)
+
 
 #Clean and delete over18 (useless column)
 dataset$over18<-NULL
@@ -103,7 +105,7 @@ dataset$gender<-ifelse(dataset$gender=="male","Male",dataset$gender)
 dataset$department<-ifelse(dataset$department=="Research and Development","Research & Development",dataset$department)
 ```
 
-# First Analysis (London/Barcelona)
+# First Analysis (in overall and divide dataset)
 
 Our first analysis is carried out with the aim of
 identifying the significant differences between the two
@@ -223,3 +225,58 @@ yet close to retirement but not very young either. It
 would be interesting to recruit an additional person in
 this area so that he can pass on his knowledge and
 subsequently take over the HR area in Barcelona.
+
+
+## Job satisfaction, job involvement and relationship satisfaction
+
+In this part we will analyze 3 variables corresponding to
+the feelings of the employees in the 2 companies. We will
+then analyze them to see if they are different variables
+depending on the company.
+First analysis "Job involvement" :
+
+```{r job involvement, echo=FALSE}
+job_invol<-matrix(c("Barcelona",summarize(dataset_barcelona,average=mean(job_involvement)),
+                          "London",summarize(dataset_london,average=mean(job_involvement))),
+                        ncol=2)
+job_invol
+
+grid.arrange(ggplot(dataset_barcelona, aes(x=job_involvement))+
+  geom_bar()+labs(x="Job involvement in Barcelona",y="Number of employees"),ggplot(dataset_london, aes(x=job_involvement))+
+  geom_bar()+labs(x="Job involvement in London", y="Number of employees"))
+```
+
+In this case job involvement in Barcelona is quit higher
+than London (*3,38* in bcn and *2,74* in London)
+Then we will analyse job satisfaction: 
+:  
+```{r job satisfaction, echo=FALSE}
+environment_satisfaction<-matrix(c("Barcelona",summarize(dataset_barcelona,average=mean(job_satisfaction)),
+                                   "London",summarize(dataset_london,average=mean(job_satisfaction))),
+                                 ncol=2)
+environment_satisfaction
+
+grid.arrange(ggplot(dataset_barcelona, aes(x=job_satisfaction))+
+  geom_bar()+labs(x="Job satisfaction in Barcelona",y="Number of employees"),ggplot(dataset_london, aes(x=job_satisfaction))+
+  geom_bar()+labs(x="Job satisfaction in London", y="Number of employees"))
+```
+
+Whether employees are in Barcelona or London, job
+satisfaction is about *2.73* on average.
+And finaly we will analyse "relationship satisfaction" :
+
+```{r relationship satisfaction, echo=FALSE}
+relation_satisfaction<-matrix(c("Barcelona",summarize(dataset_barcelona,average=mean(relationship_satisfaction)),
+                          "London",summarize(dataset_london,average=mean(relationship_satisfaction))),
+                        ncol=2)
+relation_satisfaction
+
+grid.arrange(ggplot(dataset_barcelona, aes(x=relationship_satisfaction))+
+  geom_bar()+labs(x="Relation satisfaction in Barcelona",y="Number of employees"),ggplot(dataset_london, aes(x=relationship_satisfaction))+
+  geom_bar()+labs(x="Relation satisfaction in London", y="Number of employees"))
+
+```
+
+As we can see on the 3 variables analyzed, they are
+identical except for the "job involvement" variable which
+is higher in Barcelona than in London.
