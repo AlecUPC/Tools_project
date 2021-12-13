@@ -12,6 +12,7 @@ library(janitor)
 library(gridExtra)
 library(dplyr)
 library(cowplot)
+library(knitr)
 ```
 
 # Introduction
@@ -22,13 +23,15 @@ library(cowplot)
 RStudio 2021.09.0+351 "Ghost Orchid" Release (077589bcad3467ae79f318afe8641a1899a51606, 2021-09-20) for Windows
 Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) QtWebEngine/5.12.8 Chrome/69.0.3497.128 Safari/537.36
 
-And then we used these 4 packages on Rstudio:
+And then we used these 6 packages on Rstudio:
 
 ```{r packages, eval=FALSE}
 library(tidyverse)
 library(janitor)
 library(gridExtra)
 library(dplyr)
+library(cowplot)
+library(knitr)
 ```
 
 ## Data description
@@ -192,22 +195,23 @@ conclusions on one of the problems of the new CEO
 concerning the succession of employees in the different
 sectors.
 
-```{r department}
-
+```{r department, eval=FALSE}
 department_barcelona<-ggplot(dataset_barcelona,aes(x=department))+
   geom_bar()+
-    theme(axis.text.x = element_text(angle = 60, hjust = 1))+
   geom_text(stat='count', aes(label=..count..), vjust=0.5, color="black")+
-  labs(x="Department in Barcelona")+
-theme_light()
-
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))+
+  labs(x="Department in Barcelona")
 department_london<-ggplot(dataset_london,aes(x=department))+
   geom_bar()+
-      theme(axis.text.x = element_text(angle = 60, hjust = 1))+
   geom_text(stat='count', aes(label=..count..), vjust=0.5, color="black")+
-    labs(x="Department in London")+
-theme_light()
-plot_grid(department_barcelona, department_london, ncol = 2, nrow = 1)
+  theme(axis.text.x = element_text(angle = 45, hjust=1))+
+  labs(x="Department in London")
+```
+
+As we did not manage to make the texts of the X axis readable despite a correct code syntax, we will export them in JPG format.
+
+```{r dept fix}
+include_graphics(c("Rplotbcn.JPG", "Rplotldn.JPG"))
 ```
 
 Analyzing the two graphs, we can see that in Barcelona
@@ -304,3 +308,84 @@ mean salary is lower than in London
 So people who live in Barcelona theoretically have more
 financial resources in their in their countries than in
 London.
+
+## Distance from home 
+
+In this section we will look at the distance between
+living and working in the two companies:
+
+```{r distance, echo=FALSE}
+Distance_home <- rbind(matrix(c("","Mini_distance","Mean_distance","Max_distance",
+                         "Barcelona",min(dataset_barcelona$distance_from_home),mean(dataset_barcelona$distance_from_home),max(dataset_barcelona$distance_from_home),
+                         "London",min(dataset_london$distance_from_home),mean(dataset_london$distance_from_home),max(dataset_london$distance_from_home)),ncol=4,byrow=TRUE))
+
+Distance_home
+``` 
+
+We can see that the mini distance, mean distance and maxi distance are quit the same between Barcelone and London
+
+## Working years in general and comparaison
+
+```{r working year gen}
+summary(dataset$years_at_company)
+
+```
+Maximum 40 years in the company and mean 6,95 years in
+the company.
+
+
+```{r working year}
+#Now let's compare Barcelona and London
+summary(dataset_barcelona$years_at_company)
+summary(dataset_london$years_at_company)
+```
+As we could expect the values are quit the same, just the
+max is bigger in London than in Barcelona.
+
+## Last training in general and comparaison
+
+We'll start with general analysis and then compare London and Barcelona: 
+
+```{r last training gen}
+summary(dataset$training_times_last_year)
+```
+We have a minimum of 0 year since last training, a mean of 2,81 years and a maximum of 6 years without.
+
+```{r last training comparaison}
+summary(dataset_barcelona$training_times_last_year)
+summary(dataset_london$training_times_last_year)
+```
+
+As we can see, training are quit the same in these 2 companies.
+
+## Years in company - Years since last promotion
+
+his calculation allows us to know in which company
+employees are the most frequently promoted. This variable could be diferent and meaningful for the new CEO.
+More this calculation is near 0 less the employees are
+promoted:
+
+```{r last promotion}
+summarize(dataset_barcelona,Barcelona=sum(dataset_barcelona$years_at_company)-sum(dataset_barcelona$years_since_last_promotion))
+summarize(dataset_london,London=sum(dataset_london$years_at_company)-sum(dataset_london$years_since_last_promotion))
+```
+
+This calculation shows that employees in London are more promoted than in Barcelona.
+This is a meaningful variable for the new CEO, who may be interested in why promotions are less frequent in Barcelona than in London.
+
+## Years with the current managers
+
+Another variable that can be used by the new CEO is the
+years with the same manager, it is possible that the fact
+of changing many times of manager makes the employees 
+very happy at work for example.
+
+```{r current manager}
+summarize(dataset_barcelona,Barcelona=sum(dataset_barcelona$years_with_curr_manager))
+summarize(dataset_london,London=sum(dataset_london$years_with_curr_manager))
+```
+
+The calculation shows us that employees in London have
+more years with the same manager than in Barcelona. It is
+perhaps interesting to look at why there is such a big
+difference and the impact of this variable on employees.
