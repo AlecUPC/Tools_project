@@ -154,12 +154,13 @@ In the modern day, it's really important to treat everyone equally. So the quest
 
 ## Satisfaction vs Age
 ```{r}
-ggplot(dataset, aes(fill=job_satisfaction, x=age)) +
-  geom_bar(position="fill") + 
-  xlab("Age") +
-  ylab("Percentage of Job Satisfaction")
+ggplot(dataset, aes(x=job_satisfaction, y=age)) +
+  geom_boxplot(fill="slateblue", alpha=0.2) +
+  xlab("Job Satisfaction") +
+  ylab("Monthly Income")
 ```
-When the job satisfaction is compared with every age, the graph shows that there's not a big difference. Of course there're some differences with each age, but there're not that different to eachother, that the company needs to change their approach to different age groups.There're some outliers, but these are more by coincidence.
+
+When the job satisfaction is compared with the ages of employees, the graph shows that there's not a big difference. Of course there're some differences with each level, but there're not that different to eachother. It doesn't show that the company needs to change their approach to different age groups.
 
 
 ```{r}
@@ -168,7 +169,7 @@ summary(dataset_js2$age)
 summary(dataset_js3$age)
 summary(dataset_js4$age)
 ```
-Seeing the summary of the age for each job satisfaction level, it shows that better that there isn't much difference between the levels. Younger employees aren't happier than older employees and vice versa. 
+Seeing the summary of the age for each job satisfaction level, it shows that better that there isn't much difference between the levels. Younger employees aren't happier than older employees and vice versa. It confirms the results of the boxplot
 
 
 
