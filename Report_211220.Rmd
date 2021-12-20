@@ -15,6 +15,7 @@ library(cowplot)
 library(knitr)
 library(hrbrthemes)
 library(viridis)
+library(plotly)
 ```
 
 # Introduction
@@ -550,7 +551,7 @@ As the graph above shows, the distribution and trend are more or less the same w
 
 To gain insights on the distribution of the payout, premium payout, etc., we include other variables for our researches. 
 
-```{r}
+```{r, warning=FALSE, message=FALSE}
 # hourly rate per department in london
 ggplot(london_actual, aes(x= department, y=hourly_rate, color = gender)) +
     geom_boxplot() + scale_fill_viridis(discrete=TRUE, guide=FALSE, option="A")  + coord_flip() +ggtitle("London: Hourly Rate per Department")+
@@ -567,7 +568,7 @@ We took a look at the hourly rate divided by the different departments and we no
 
 For Barcelona the boxplot() plots are as following: 
 
-```{r}
+```{r, warning=FALSE, message=FALSE}
 # hourly rate per department in barcelona
 ggplot(barcelona_actual, aes(x= department, y=hourly_rate, color = gender)) +
     geom_boxplot() + scale_fill_viridis(discrete=TRUE, guide=FALSE, option="A")  + ggtitle("Barcelona: Hourly Rate per Department")+ coord_flip()+
@@ -579,18 +580,18 @@ ggplot(barcelona_actual, aes(x= department, y=hourly_rate, color = gender)) +
 
 The Barcelona offices lack a gender-equal hourly rate in all departments. 
 
-```{r}
-# opportunities for advancement by gender in london
+```{r warning=FALSE, message=FALSE}
+# opportunities for advancement by gender in London
 ggplot(london_actual, aes(x=years_in_current_role, y=years_since_last_promotion, color = gender)) +
     geom_point(alpha=0.5, shape =21 ) + scale_fill_viridis(discrete=TRUE, guide=FALSE, option="A") +
      ggtitle("London: Opportunities for advancement by gender")+theme_ipsum() + geom_smooth(method="loess")+
     theme(legend.position="bottom") +
-    ylab("Years in current role") 
+   ylab("Years in current role")
 ```
 
 
-```{r}
-# opportunities for advancement by gender in london
+```{r warning=FALSE, message=FALSE}
+# opportunities for advancement by gender in Barcelona
 ggplot(barcelona_actual, aes(x=years_in_current_role, y=years_since_last_promotion, color = gender)) +
     geom_point(alpha=0.5, shape =21 ) + scale_fill_viridis(discrete=TRUE, guide=FALSE, option="A") +
      ggtitle("Barcelona: Opportunities for advancement by gender")+theme_ipsum() + geom_smooth(method="loess")+
@@ -605,7 +606,6 @@ First, we check some productivity and involvement parameters.
 
 ```{r, warning=FALSE, message=FALSE}
 #london productivity by gender 
-library(plotly)
 ggplot(london_actual, aes(y=job_involvement, x=job_role, size= performance_rating, color = gender)) +
     geom_point(alpha=0.5, shape =21 ) + scale_fill_viridis(discrete=TRUE, guide=FALSE, option="A") + 
   ggtitle("LON: Role & involvement by gender & performance")+ 
@@ -616,7 +616,6 @@ ggplot(london_actual, aes(y=job_involvement, x=job_role, size= performance_ratin
 
 ```{r, warning=FALSE, message=FALSE}
 #barcelona productivity by gender 
-library(plotly)
 ggplot(barcelona_actual, aes(y=job_involvement, x=job_role, size= performance_rating, color = gender)) +
     geom_point(alpha=0.5, shape =21 ) + scale_fill_viridis(discrete=TRUE, guide=FALSE, option="A") + 
   ggtitle("BAR: Role & involvement by gender & performance")+ 
