@@ -696,8 +696,8 @@ In the modern day, it's really important to treat everyone equally. So the quest
 ```{r}
 ggplot(dataset, aes(x=job_satisfaction, y=age)) +
   geom_boxplot(fill="slateblue", alpha=0.2) +
-  xlab("Job Satisfaction") +
-  ylab("Monthly Income")
+  xlab("Job Satisfaction Level") +
+  ylab("Age")
 ```
 
 When the job satisfaction is compared with the ages of employees, the graph shows that there's not a big difference. Of course there're some differences with each level, but there're not that different to eachother. It doesn't show that the company needs to change their approach to different age groups.
