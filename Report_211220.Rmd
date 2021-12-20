@@ -640,3 +640,103 @@ ggplot(complete_actual, aes(y=percent_salary_hike, x=gender, fill = city)) +
 ```
 
 Here we can see also some differences in the percentage of salary hikes which should be equalized first between the offices in London and Barcelona and also with regard to differences for different genders. 
+
+## Job Satisfaction summary
+```{r}
+ggplot(dataset, aes(x=job_satisfaction)) + 
+  geom_bar() +
+  xlab("Job Satisfaction") +
+  ylab("Number of Employees")
+summary(dataset$job_satisfaction)
+```
+As we can see in the graph above a lot of employees are happy at the company. The levels of job satisfaction 3 and 4 (444 & 459) are way higher than the of 1 and 2 (287 & 279). The company still has to watch out, because although level 3 and 4 are higher there're still a lot employees not happy, 287/1469 = 19,5% and 279/1469 = 19%.
+
+
+## Satisfaction for each Job Role
+```{r}
+ggplot(dataset, aes(fill=job_satisfaction, x=job_role)) +
+  geom_bar(position="fill") +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 45, vjust=1, hjust=1)) +
+  xlab("Job Role") +
+  ylab("Percentage of Job Satisfaction")
+```
+In this graph we can see the jobsatisfaction levels for each job role. It shows that what kind of job role a employee has, doesn't really matter in how much he likes working at the company. All levels are in percentage pretty equal to eachother. 
+
+
+
+## Satisfaction vs Monthly Income
+```{r}
+ggplot(dataset, aes(x=job_satisfaction, y=monthly_income)) +
+  geom_boxplot(fill="slateblue", alpha=0.2) +
+  xlab("Job Satisfaction") +
+  ylab("Monthly Income")
+summary(dataset_js1$monthly_income)
+summary(dataset_js2$monthly_income)
+summary(dataset_js3$monthly_income)
+summary(dataset_js4$monthly_income)
+```
+As seen in the boxplot, the summary of the monthly income for each job satisfaction level shows that the monthly income doesn't have much impact on the job satisfaction for the employees. All the values of the minimum, 1st & 3rd quarter, median, mean and maximum are around the same number. So given these results, the company shouldn't give more salary to employees in order to keep them happy. 
+
+
+
+## Job satisfaction vs Stock option level
+```{r}
+ggplot(dataset, aes(fill=job_satisfaction, x = stock_option_level)) +
+  geom_bar(position="fill") + 
+  xlab("Stock Option") +
+  ylab("Percentage of Job Satisfaction")
+```
+As visible in the graph above, it shows that the level of stock options doesn't influence the job satisfaction level. For every stock option level the ratio of the job satisfaction level is almost the same. 
+
+
+
+## Satisfaction vs WorkLifeBalance
+```{r}
+ggplot(dataset, aes(fill=job_satisfaction, x=work_life_balance)) +
+  geom_bar(position="fill") +
+  xlab("Work-Life-Balance") +
+  ylab("Percentage of Job Satisfaction")
+```
+A lot of times job satisfaction comes with a good work-life-balance, but in this graph we can see that that is not the case at this company. Employees who have a great work-life-balance (level 4) aren't happier at their job than employees whose work-life-balance is really low (level 1).
+
+
+
+## Satisfaction vs City
+```{r}
+ggplot(dataset, aes(fill=job_satisfaction, x=city)) +
+  geom_bar(position="fill") + 
+  xlab("City") +
+  ylab("Percentage of Job Satisfaction")
+```
+To see if a city is working differently and therefore making their employees more happy, this graph was made. This graph shows the differences in the office of Barcelona and London. There aren't any real differences to see in the graph. The percentages of each job satisfaction level are basically the same in both cities.
+
+
+## Satisfaction vs Gender
+```{r}
+ggplot(dataset, aes(fill=job_satisfaction, x=gender)) +
+  geom_bar(position="fill") + 
+  xlab("Gender") +
+  ylab("Percentage of Job Satisfaction")
+```
+In the modern day, it's really important to treat everyone equally. So the question is if there're any differences in the job satisfaction levels between men and women. The results show that more male employees have the job satisfaction level of 4 than female employees. It's around the same for level 3 and more female employees have job satisfaction level 2, while job satisfaction level 1 is around the same percentage for both male and female employees.
+
+
+## Satisfaction vs Age
+```{r}
+ggplot(dataset, aes(x=job_satisfaction, y=age)) +
+  geom_boxplot(fill="slateblue", alpha=0.2) +
+  xlab("Job Satisfaction") +
+  ylab("Monthly Income")
+```
+
+When the job satisfaction is compared with the ages of employees, the graph shows that there's not a big difference. Of course there're some differences with each level, but there're not that different to eachother. It doesn't show that the company needs to change their approach to different age groups.
+
+
+```{r}
+summary(dataset_js1$age)
+summary(dataset_js2$age)
+summary(dataset_js3$age)
+summary(dataset_js4$age)
+```
+Seeing the summary of the age for each job satisfaction level, it shows that better that there isn't much difference between the levels. Younger employees aren't happier than older employees and vice versa. It confirms the results of the boxplot
