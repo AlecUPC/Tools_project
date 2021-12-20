@@ -13,6 +13,8 @@ library(gridExtra)
 library(dplyr)
 library(cowplot)
 library(knitr)
+library(hrbrthemes)
+library(viridis)
 ```
 
 # Introduction
@@ -466,7 +468,7 @@ ggplot(dataset,
   geom_violin() +
   theme(axis.text.x=element_text(angle=90,hjust=1,vjust=0.5),
         legend.position="right") +
-  ggtitle("Density of job_satisfaction by city and gender")
+  ggtitle("Density of job satisfaction by city and gender")
 ```
 
 From both shapes we can see that the Barcelona has a more homogeneous distribution of job satisfaction for both genders. London has more peaks within the job satisfaction rates. 
@@ -480,15 +482,13 @@ ggplot(dataset,
   geom_violin() +
   theme(axis.text.x=element_text(angle=90,hjust=1,vjust=0.5),
         legend.position="right") +
-  ggtitle("Density of  job satisfaction by city and gender")
+  ggtitle("Monthly income by city and gender")
 ```
 
 The pay rates are equally distributed what also the following graph shows. 
 
-```{r}
+```{r, warning=FALSE, message=FALSE}
 #monthly income by gender and age in Barcelona
-library(hrbrthemes)
-library(viridis)
 ggplot(dataset_barcelona, aes(x=monthly_income, y=age, color = gender)) +
     geom_point(alpha=0.5, shape =21 ) + scale_fill_viridis(discrete=TRUE, guide=FALSE, option="A") +ggtitle("Barcelona: Monthly income by Gender and Age")+
     theme_ipsum() + geom_smooth(method="loess")+
@@ -497,10 +497,8 @@ ggplot(dataset_barcelona, aes(x=monthly_income, y=age, color = gender)) +
     xlab("Monthly Income") 
 ```
 
-```{r}
+```{r, warning=FALSE, message=FALSE}
 #monthly income by gender and age in London
-library(hrbrthemes)
-library(viridis)
 ggplot(dataset_london, aes(x=monthly_income, y=age, color = gender)) +
     geom_point(alpha=0.5, shape =21 ) + scale_fill_viridis(discrete=TRUE, guide=FALSE, option="A") +ggtitle("London: Monthly income by Gender and Age")+
     theme_ipsum() + geom_smooth(method="loess")+
@@ -523,9 +521,7 @@ By cleaning out the employees that already have left the organization, we focus 
 
 We repeat now the analysis from above to see how the actual situation is but we change the by age structured view and shift towards years the employee is working for the organization to see if the income rises equally for men and women correlating with the years somebody is working.  
 
-```{r}
-library(hrbrthemes)
-library(viridis)
+```{r, warning=FALSE, message=FALSE}
 ggplot(london_actual, aes(x=monthly_income, y=years_at_company, color = gender)) +
     geom_point(alpha=0.5, shape =21 ) + scale_fill_viridis(discrete=TRUE, guide=FALSE, option="A") +ggtitle("London: Monthly income & Years at Company")+
     theme_ipsum() + geom_smooth(method="loess")+
@@ -533,11 +529,10 @@ ggplot(london_actual, aes(x=monthly_income, y=years_at_company, color = gender))
     ylab("Years at company") +
     xlab("Monthly Income") 
 ```
+
 Although the London office still has a ~ 40:60 distribution between female and male employees, the monthly income over the years has a rising trend with slightly higher incomes for female employees at the end what is majorly influenced by the peaks regarding the income. In general one can see that the distribution is quite fair and rising over the years. As the CEO wants both offices to perform more or less equally, we now take a look at the Barcelona office. 
 
-```{r}
-library(hrbrthemes)
-library(viridis)
+```{r,warning=FALSE, message=FALSE}
 ggplot(barcelona_actual, aes(x=monthly_income, y=years_at_company, color = gender)) +
     geom_point(alpha=0.5, shape =21 ) + scale_fill_viridis(discrete=TRUE, guide=FALSE, option="A") +
      ggtitle("Barcelona: Monthly income & Years at Company")+theme_ipsum() + geom_smooth(method="loess")+
@@ -552,14 +547,13 @@ To gain insights on the distribution of the payout, premium payout, etc., we inc
 
 ```{r}
 # hourly rate per department in london
-library(hrbrthemes)
-library(viridis)
 ggplot(london_actual, aes(x= department, y=hourly_rate, color = gender)) +
-    geom_boxplot() + scale_fill_viridis(discrete=TRUE, guide=FALSE, option="A")  + ggtitle("London: Hourly Rate per Department")+
+    geom_boxplot() + scale_fill_viridis(discrete=TRUE, guide=FALSE, option="A")  + coord_flip() +ggtitle("London: Hourly Rate per Department")+
     theme_ipsum() + geom_smooth(method="loess")+
     theme(legend.position="bottom") +
     ylab("Hourly Rate") +
     xlab("Department") 
+
 ```
 
 Info: The hourly rate is the amount of money that you receive for each hour you spend working. As an hourly employee, you should get paid for all of the hours that you work. If an employer wants more of your time, they’ll have to pay you more.
@@ -570,10 +564,8 @@ For Barcelona the boxplot() plots the following:
 
 ```{r}
 # hourly rate per department in barcelona
-library(hrbrthemes)
-library(viridis)
 ggplot(barcelona_actual, aes(x= department, y=hourly_rate, color = gender)) +
-    geom_boxplot() + scale_fill_viridis(discrete=TRUE, guide=FALSE, option="A")  + ggtitle("Barcelona: Hourly Rate per Department")+
+    geom_boxplot() + scale_fill_viridis(discrete=TRUE, guide=FALSE, option="A")  + ggtitle("Barcelona: Hourly Rate per Department")+ coord_flip()+
     theme_ipsum() + geom_smooth(method="loess")+
     theme(legend.position="bottom") +
     ylab("Hourly Rate") +
@@ -584,8 +576,6 @@ The Barcelona offices lack a gender-equal hourly rate in all departments.
 
 ```{r}
 # opportunities for advancement by gender in london
-library(hrbrthemes)
-library(viridis)
 ggplot(london_actual, aes(x=years_in_current_role, y=years_since_last_promotion, color = gender)) +
     geom_point(alpha=0.5, shape =21 ) + scale_fill_viridis(discrete=TRUE, guide=FALSE, option="A") +
      ggtitle("London: Opportunities for advancement by gender")+theme_ipsum() + geom_smooth(method="loess")+
@@ -597,8 +587,6 @@ ggplot(london_actual, aes(x=years_in_current_role, y=years_since_last_promotion,
 
 ```{r}
 # opportunities for advancement by gender in london
-library(hrbrthemes)
-library(viridis)
 ggplot(barcelona_actual, aes(x=years_in_current_role, y=years_since_last_promotion, color = gender)) +
     geom_point(alpha=0.5, shape =21 ) + scale_fill_viridis(discrete=TRUE, guide=FALSE, option="A") +
      ggtitle("Barcelona: Opportunities for advancement by gender")+theme_ipsum() + geom_smooth(method="loess")+
