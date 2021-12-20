@@ -1,6 +1,6 @@
 ---
 title: "London-Barcelona analysis"
-author: "Alec DUDOGNON"
+author: "Georgi Gevorgyan, Nicolas Ortiz, Alec Dudognon, Alexander Rutten"
 date: "10/12/2021"
 output: html_document
 ---
@@ -528,6 +528,7 @@ By cleaning out the employees that already have left the organization, we focus 
 We repeat now the analysis from above to see how the actual situation is but we change the by age structured view and shift towards years the employee is working for the organization to see if the income rises equally for men and women correlating with the years somebody is working.  
 
 ```{r, warning=FALSE, message=FALSE}
+#london monthly income & years at company
 ggplot(london_actual, aes(x=monthly_income, y=years_at_company, color = gender)) +
     geom_point(alpha=0.5, shape =21 ) + scale_fill_viridis(discrete=TRUE, guide=FALSE, option="A") +ggtitle("London: Monthly income & Years at Company")+
     theme_ipsum() + geom_smooth(method="loess")+
@@ -539,6 +540,7 @@ ggplot(london_actual, aes(x=monthly_income, y=years_at_company, color = gender))
 Although the London office still has a ~ 40:60 distribution between female and male employees, the monthly income over the years has a rising trend with slightly higher incomes for female employees at the end what is majorly influenced by the peaks regarding the income. In general one can see that the distribution is quite fair and rising over the years. As the CEO wants both offices to perform more or less equally, we now take a look at the Barcelona office. 
 
 ```{r,warning=FALSE, message=FALSE}
+#barcelona monthly income & years at company
 ggplot(barcelona_actual, aes(x=monthly_income, y=years_at_company, color = gender)) +
     geom_point(alpha=0.5, shape =21 ) + scale_fill_viridis(discrete=TRUE, guide=FALSE, option="A") +
      ggtitle("Barcelona: Monthly income & Years at Company")+theme_ipsum() + geom_smooth(method="loess")+
@@ -586,7 +588,8 @@ ggplot(london_actual, aes(x=years_in_current_role, y=years_since_last_promotion,
     geom_point(alpha=0.5, shape =21 ) + scale_fill_viridis(discrete=TRUE, guide=FALSE, option="A") +
      ggtitle("London: Opportunities for advancement by gender")+theme_ipsum() + geom_smooth(method="loess")+
     theme(legend.position="bottom") +
-   ylab("Years in current role")
+   xlab("Years in current role")+
+   ylab("Years since last promotion") 
 ```
 
 
@@ -596,13 +599,13 @@ ggplot(barcelona_actual, aes(x=years_in_current_role, y=years_since_last_promoti
     geom_point(alpha=0.5, shape =21 ) + scale_fill_viridis(discrete=TRUE, guide=FALSE, option="A") +
      ggtitle("Barcelona: Opportunities for advancement by gender")+theme_ipsum() + geom_smooth(method="loess")+
     theme(legend.position="bottom") +
-    ylab("Years in current role") +
-    xlab("Years since last promotion") 
+    xlab("Years in current role") +
+    ylab("Years since last promotion") 
 ```
 
 Due to the given amount of data the distribution is more or less equal between both genders and no bigger differences could be identified. Nevertheless, the company should in general rethink their advancement options for workers. This could be improved by some training sessions and advancement programs, which is why we now take a look at the training sessions taken by men and women. That gives information on whether the company encourages their employees to move on in terms of climbing the career ladder and it shows if these options are given equally distributed to men and women. Here we have to keep in mind the 60:40 men-women-ratio situation in both offices. 
 
-First, we check some productivity and involvement parameters. 
+Here, we check some productivity and involvement parameters. 
 
 ```{r, warning=FALSE, message=FALSE}
 #london productivity by gender 
